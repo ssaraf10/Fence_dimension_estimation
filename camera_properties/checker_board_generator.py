@@ -1,10 +1,19 @@
 import cv2
 import numpy as np
 
-# Define the dimensions of the checkerboard
-rows = 8  # Number of rows of squares
-cols = 6  # Number of columns of squares
-square_size = 100  # Size of each square in millimeters (mm)
+# Define square size and DPI
+square_size = 250  # Size of each square in pixels
+dpi = 300  # Dots per inch for printing
+
+# Calculate A4 dimensions in pixels
+a4_width_inches = 210 / 25.4
+a4_height_inches = 297 / 25.4
+a4_width_pixels = int(a4_width_inches * dpi)
+a4_height_pixels = int(a4_height_inches * dpi)
+
+# Calculate maximum number of squares that can fit in A4
+cols = int(a4_width_pixels / square_size)
+rows = int(a4_height_pixels / square_size)
 
 # Calculate the dimensions of the checkerboard image in pixels
 image_width = cols * square_size  # Width in pixels
@@ -20,18 +29,9 @@ for i in range(rows):
             # Draw a white square
             board[i * square_size:(i + 1) * square_size, j * square_size:(j + 1) * square_size] = [255, 255, 255]
 
-# Set the DPI (dots per inch) for printing
-dpi = 300  # Adjust as needed
-
-# Calculate the image resolution in pixels per inch (PPI)
-ppi = dpi * 25.4  # 1 inch = 25.4 mm
-
-# Calculate the image dimensions in inches
-image_width_inches = image_width / ppi
-image_height_inches = image_height / ppi
 
 # Save the checkerboard image with the correct size for printing
 # cv2.imwrite('checkerboard.png', board, [cv2.IMWRITE_PNG_COMPRESSION, 0])
-cv2.imwrite('checkerboard.bmp', board)
-print(
-    f"Checkerboard image saved as 'checkerboard.png' with dimensions: {image_width} x {image_height} pixels ({image_width_inches:.2f} x {image_height_inches:.2f} inches)")
+cv2.imwrite('checkerboard.png', board)
+# print(
+#     f"Checkerboard image saved as 'checkerboard.png' with dimensions: {image_width} x {image_height} pixels ({image_width_inches:.2f} x {image_height_inches:.2f} inches)")
